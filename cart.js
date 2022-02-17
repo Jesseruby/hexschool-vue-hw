@@ -156,8 +156,8 @@ const app = createApp({
       .then((response) => {
         alert(response.data.message);
         //this.$refs.form.resetForm();//範例的程式碼，不知道做什麼用的？
-        //this.getCart();//執行：取得購物車
-        //this.isLoading = '';//加入完後要清空
+        this.getCart();//執行：取得購物車
+        this.isLoading = '';//加入完後要清空
       })//.then
       .catch((err) => {
         alert(err.data.message);
@@ -166,8 +166,8 @@ const app = createApp({
  
   },//.methods
   mounted() {
-    //this.checkLogin();//初始畫面：加驗證取得產品資料
-    //this.getCart();
+    this.checkLogin();//初始畫面：加驗證取得產品資料
+    this.getCart();
     // 載入 modal
     productModal = new bootstrap.Modal(document.getElementById('productModal'), {
       keyboard: false,//只是設定鍵盤是否能使用，可以刪除
