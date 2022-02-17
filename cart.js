@@ -142,20 +142,22 @@ const app = createApp({
 
     //--------------- 購物車 表單 ------------------------------------------
     submitCart() {
+      console.log(this.form.user.email);
       //--- 表單：驗證 ---
       if( this.form.user.email ==='' ||
           this.form.user.name ==='' ||
           this.form.user.tel ==='' ||
           this.form.user.address ===''){
-          alert('必填 有缺！'); return;
+          alert('必填 有缺！');
+          return;
       };
       //--- 表單：送出 ---
       axios.post(`${apiUrl}/api/${apiPath}/order`, { data: this.form })
       .then((response) => {
         alert(response.data.message);
         //this.$refs.form.resetForm();//範例的程式碼，不知道做什麼用的？
-        this.getCart();//執行：取得購物車
-        this.isLoading = '';//加入完後要清空
+        //this.getCart();//執行：取得購物車
+        //this.isLoading = '';//加入完後要清空
       })//.then
       .catch((err) => {
         alert(err.data.message);
@@ -164,8 +166,8 @@ const app = createApp({
  
   },//.methods
   mounted() {
-    this.checkLogin();//初始畫面：加驗證取得產品資料
-    this.getCart();
+    //this.checkLogin();//初始畫面：加驗證取得產品資料
+    //this.getCart();
     // 載入 modal
     productModal = new bootstrap.Modal(document.getElementById('productModal'), {
       keyboard: false,//只是設定鍵盤是否能使用，可以刪除
