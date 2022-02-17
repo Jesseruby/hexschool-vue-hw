@@ -140,8 +140,16 @@ const app = createApp({
       });
     },//.deleteCarts
 
-    //--------------- 表單：驗證+送出 ------------------------------------------
+    //--------------- 購物車 表單 ------------------------------------------
     submitCart() {
+      //--- 表單：驗證 ---
+      if( this.form.user.email ==='' ||
+          this.form.user.name ==='' ||
+          this.form.user.tel ==='' ||
+          this.form.user.address ===''){
+          alert('必填 有缺！'); return;
+      };
+      //--- 表單：送出 ---
       axios.post(`${apiUrl}/api/${apiPath}/order`, { data: this.form })
       .then((response) => {
         alert(response.data.message);
