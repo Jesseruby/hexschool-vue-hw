@@ -198,84 +198,82 @@
               <h4 class="mb-0">購買人資料</h4>
             </div><!-- .card-header -->
             <div class="card-body">
-              <form class="px-5">
-                <div class="mb-3">
-                  <label for="email" class="form-label">
-                    Email <span class="text-warning">(必填)</span>
-                  </label>
-                  <input id="email"
-                          type="email" name="email"
+              <div class="mb-3">
+                <label for="email" class="form-label">
+                  Email <span class="text-warning">(必填)</span>
+                </label>
+                <input id="email"
+                        type="email" name="email"
+                        class="form-control"
+                        autocomplete="off"
+                        placeholder="請輸入 Email"
+                        v-model="form.user.email"/>
+              </div><!-- .mb-3 -->
+              <div class="mb-3">
+                <label for="name" class="form-label">
+                  收件人姓名  <span class="text-warning">(必填)</span>
+                </label>
+                <input id="name"
+                      type="text" name="姓名"
+                      class="form-control"
+                      placeholder="請輸入姓名"
+                      v-model="form.user.name"/>
+              </div><!-- .mb-3 -->
+              <div class="mb-3">
+                <label for="tel" class="form-label">
+                  收件人電話  <span class="text-warning">(必填)</span>
+                </label>
+                <input id="tel" 
+                      type="text" name="電話"
+                      class="form-control"
+                      placeholder="請輸入電話"
+                      v-model="form.user.tel"/>
+              </div><!-- .mb-3 -->
+              <div class="mb-3">
+                <label for="address" class="form-label">
+                  收件人地址 <span class="text-warning">(必填)</span>
+                </label>
+                <input id="address"
+                      type="text" name="地址"
+                      class="form-control"
+                      placeholder="請輸入地址"
+                      v-model="form.user.address"/>
+              </div><!-- .mb-3 -->
+              <div class="mb-3">
+                <label for="message" class="form-label">
+                  留言
+                </label>
+                <textarea name="message"
+                          cols="10" rows="5"
+                          id="message"
                           class="form-control"
-                          autocomplete="off"
-                          placeholder="請輸入 Email"
-                          v-model="form.user.email"/>
-                </div><!-- .mb-3 -->
-                <div class="mb-3">
-                  <label for="name" class="form-label">
-                    收件人姓名  <span class="text-warning">(必填)</span>
-                  </label>
-                  <input id="name"
-                        type="text" name="姓名"
-                        class="form-control"
-                        placeholder="請輸入姓名"
-                        v-model="form.user.name"/>
-                </div><!-- .mb-3 -->
-                <div class="mb-3">
-                  <label for="tel" class="form-label">
-                    收件人電話  <span class="text-warning">(必填)</span>
-                  </label>
-                  <input id="tel" 
-                        type="text" name="電話"
-                        class="form-control"
-                        placeholder="請輸入電話"
-                        v-model="form.user.tel"/>
-                </div><!-- .mb-3 -->
-                <div class="mb-3">
-                  <label for="address" class="form-label">
-                    收件人地址 <span class="text-warning">(必填)</span>
-                  </label>
-                  <input id="address"
-                        type="text" name="地址"
-                        class="form-control"
-                        placeholder="請輸入地址"
-                        v-model="form.user.address"/>
-                </div><!-- .mb-3 -->
-                <div class="mb-3">
-                  <label for="message" class="form-label">
-                    留言
-                  </label>
-                  <textarea name="message"
-                            cols="10" rows="5"
-                            id="message"
-                            class="form-control"
-                            v-model="form.message">
-                  </textarea>
-                </div><!-- .mb-3 -->
-                <div class="d-flex justify-content-end py-3">
-                  <div v-show="form.user.email ==='' ||
-                               form.user.name ==='' ||
-                               form.user.tel ==='' ||
-                               form.user.address ==='' "
-                       class="alert alert-warning me-3 w-75" role="alert">
-                    <p v-show="form.user.email ==='' "
-                        class="mb-1">Email 未填寫！</p>
-                    <p v-show="form.user.name ==='' "
-                        class="mb-1">姓名 未填寫！</p>
-                    <p v-show="form.user.tel ==='' "
-                        class="mb-1">電話 未填寫！</p>
-                    <p v-show="form.user.address ==='' "
-                        class="mb-1">地址 未填寫！</p>
-                  </div><!-- .col -->
-                  <div class="px-0">
-                    <button type="submit"
-                            style="width: 6em;"
-                            class="btn btn-pink"
-                            click="submitCart">
-                            送出訂單
-                    </button>
-                  </div><!-- .col -->
-                </div>
-              </form>
+                          v-model="form.message">
+                </textarea>
+              </div><!-- .mb-3 -->
+              <div class="d-flex justify-content-end py-3">
+                <div v-show="form.user.email ==='' ||
+                              form.user.name ==='' ||
+                              form.user.tel ==='' ||
+                              form.user.address ==='' "
+                      class="alert alert-warning me-3 w-75" role="alert">
+                  <p v-show="form.user.email ==='' "
+                      class="mb-1">Email 未填寫！</p>
+                  <p v-show="form.user.name ==='' "
+                      class="mb-1">姓名 未填寫！</p>
+                  <p v-show="form.user.tel ==='' "
+                      class="mb-1">電話 未填寫！</p>
+                  <p v-show="form.user.address ==='' "
+                      class="mb-1">地址 未填寫！</p>
+                </div><!-- .col -->
+                <div class="px-0">
+                  <button type="button"
+                          style="width: 6em;"
+                          class="btn btn-pink"
+                          @click="submitCart">
+                          送出訂單
+                  </button>
+                </div><!-- .col -->
+              </div>
             </div><!-- .card-body -->
           </div><!-- .card -->
         </div><!-- .col -->
