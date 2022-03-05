@@ -198,82 +198,78 @@
               <h4 class="mb-0">購買人資料</h4>
             </div><!-- .card-header -->
             <div class="card-body">
-              <div class="mb-3">
-                <label for="email" class="form-label">
-                  Email <span class="text-warning">(必填)</span>
-                </label>
-                <input id="email"
-                        type="email" name="email"
-                        class="form-control"
-                        autocomplete="off"
-                        placeholder="請輸入 Email"
-                        v-model="form.user.email"/>
-              </div><!-- .mb-3 -->
-              <div class="mb-3">
-                <label for="name" class="form-label">
-                  收件人姓名  <span class="text-warning">(必填)</span>
-                </label>
-                <input id="name"
-                      type="text" name="姓名"
-                      class="form-control"
-                      placeholder="請輸入姓名"
-                      v-model="form.user.name"/>
-              </div><!-- .mb-3 -->
-              <div class="mb-3">
-                <label for="tel" class="form-label">
-                  收件人電話  <span class="text-warning">(必填)</span>
-                </label>
-                <input id="tel" 
-                      type="text" name="電話"
-                      class="form-control"
-                      placeholder="請輸入電話"
-                      v-model="form.user.tel"/>
-              </div><!-- .mb-3 -->
-              <div class="mb-3">
-                <label for="address" class="form-label">
-                  收件人地址 <span class="text-warning">(必填)</span>
-                </label>
-                <input id="address"
-                      type="text" name="地址"
-                      class="form-control"
-                      placeholder="請輸入地址"
-                      v-model="form.user.address"/>
-              </div><!-- .mb-3 -->
-              <div class="mb-3">
-                <label for="message" class="form-label">
-                  留言
-                </label>
-                <textarea name="message"
-                          cols="10" rows="5"
-                          id="message"
+              <!-- 表單驗證套件：VeeValidation -->
+              <v-form ref="form"
+                      v-slot="{ errors }"
+                      @submit="submitCart">
+                <div class="mb-3">
+                  <label for="name" class="form-label">收件人姓名</label>
+                  <v-field
+                          id="name"
+                          name="姓名"
+                          type="text"
                           class="form-control"
-                          v-model="form.message">
-                </textarea>
-              </div><!-- .mb-3 -->
-              <div class="d-flex justify-content-end py-3">
-                <div v-show="form.user.email ==='' ||
-                              form.user.name ==='' ||
-                              form.user.tel ==='' ||
-                              form.user.address ==='' "
-                      class="alert alert-warning me-3 w-75" role="alert">
-                  <p v-show="form.user.email ==='' "
-                      class="mb-1">Email 未填寫！</p>
-                  <p v-show="form.user.name ==='' "
-                      class="mb-1">姓名 未填寫！</p>
-                  <p v-show="form.user.tel ==='' "
-                      class="mb-1">電話 未填寫！</p>
-                  <p v-show="form.user.address ==='' "
-                      class="mb-1">地址 未填寫！</p>
-                </div><!-- .col -->
-                <div class="px-0">
-                  <button type="button"
-                          style="width: 6em;"
-                          class="btn btn-pink"
-                          @click="submitCart">
+                          :class="{ 'is-invalid': errors['姓名'] }"
+                          placeholder="請輸入姓名"
+                          rules="required"
+                          v-model="form.user.name"></v-field>
+                  <error-message name="姓名" class="invalid-feedback"></error-message>
+                </div><!-- .mb-3 -->
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <v-field
+                          id="email"
+                          name="email"
+                          type="email"
+                          class="form-control"
+                          :class="{ 'is-invalid': errors['email'] }"
+                          placeholder="請輸入 Email"
+                          rules="email|required"
+                          v-model="form.user.email"></v-field>
+                  <error-message name="email" class="invalid-feedback"></error-message>
+                </div><!-- .mb-3 -->
+                <div class="mb-3">
+                  <label for="tel" class="form-label">收件人手機</label>
+                  <v-field
+                          id="tel"
+                          name="電話"
+                          type="tel"
+                          class="form-control"
+                          :class="{ 'is-invalid': errors['電話'] }"
+                          placeholder="請輸入電話"
+                          :rules="isTel"
+                          v-model="form.user.tel"></v-field>
+                  <error-message name="電話" class="invalid-feedback"></error-message>
+                </div><!-- .mb-3 -->
+                <div class="mb-3">
+                  <label for="address" class="form-label">收件人地址</label>
+                  <v-field 
+                          id="address"
+                          name="地址"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': errors['地址'] }"
+                          placeholder="請輸入地址"
+                          rules="required"
+                          v-model="form.user.address"></v-field>
+                  <error-message name="地址" class="invalid-feedback"></error-message>
+                </div><!-- .mb-3 -->
+                <div class="mb-3">
+                  <label for="message" class="form-label">留言</label>
+                  <textarea name="message"
+                            cols="10" rows="5"
+                            id="message"
+                            class="form-control"
+                            v-model="form.message">
+                  </textarea>
+                </div><!-- .mb-3 -->
+                <div class="text-end">
+                  <button type="submit" class="btn btn-dark"
+                          :disabled="Object.keys(errors).length > 0 || cart.total === 0">
                           送出訂單
                   </button>
-                </div><!-- .col -->
-              </div>
+                </div><!-- .mb-3 -->
+              </v-form>
             </div><!-- .card-body -->
           </div><!-- .card -->
         </div><!-- .col -->
@@ -366,6 +362,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
   <script src="https://unpkg.com/vue@next"></script>
+  <!-- VeeValidation -->
+	<script src="https://unpkg.com/vee-validate@next"></script>
+	<script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
+	<script src="https://unpkg.com/@vee-validate/rules"></script>
+  <!-- 自訂JS -->
   <script src="./cart.js" type="module"></script>
 </body>
 </html>
