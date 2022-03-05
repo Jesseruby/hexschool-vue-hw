@@ -69,7 +69,7 @@ const app = Vue.createApp({
         })//.then
         .catch((error) => {
           console.dir(error);
-          alert(error.data.message);//顯示錯誤訊息
+          alert(error.response.data.message);//顯示錯誤訊息
           window.location = 'index.html';//失敗轉回登入畫面
         })//.catch
     },//.checkLogin
@@ -80,7 +80,7 @@ const app = Vue.createApp({
           this.products = response.data.products;//載入資料：產品列表
         })//.then
         .catch((error) => {
-          alert(error.data.message);//顯示錯誤訊息
+          alert(error.response.data.message);//顯示錯誤訊息
         })//.catch
     },//.getData
     //--- 打開：modal ---
@@ -100,7 +100,7 @@ const app = Vue.createApp({
           console.log(this.cart);
         })//.then
         .catch((error) => {
-          alert(error.data.message);//顯示錯誤訊息
+          alert(err.response.data.message);//顯示錯誤訊息
         })//.catch
     },//.getCart
     //--- 購物車：加入 ---
@@ -117,7 +117,7 @@ const app = Vue.createApp({
           productModal.hide();//關閉購物車modal
         })//.then
         .catch((error) => {
-          alert(error.data.message);//顯示錯誤訊息
+          alert(error.response.data.message);//顯示錯誤訊息
         })//.catch
     },//.addCart
     //--- 購物車：刪除特定選項 ---
@@ -129,7 +129,7 @@ const app = Vue.createApp({
           this.isLoading = '';//加入完後要清空
         })//.then
         .catch((error) => {
-          alert(error.data.message);//顯示錯誤訊息
+          alert(error.response.data.message);//顯示錯誤訊息
         })//.catch
     },//.removeCart
     //--- 購物車：更新數量 ---
@@ -145,7 +145,7 @@ const app = Vue.createApp({
           this.isLoading = '';//加入完後要清空
         })//.then
         .catch((error) => {
-          alert(error.data.message);//顯示錯誤訊息
+          alert(error.response.data.message);//顯示錯誤訊息
         })//.catch
     },//.removeCart
 
