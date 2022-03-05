@@ -6,7 +6,7 @@
 // 4. 局部讀取效果：loading 套件
 // 5. 表單驗證：VeeValidate 套件
 
-import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.9/vue.esm-browser.js';
+//import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.9/vue.esm-browser.js';
 
 const apiUrl = 'https://vue3-course-api.hexschool.io/v2';//作業用API
 const apiPath = 'jesse-food-3';//購物車用的API
@@ -14,7 +14,20 @@ const apiPath = 'jesse-food-3';//購物車用的API
 //--- 在外層定義modal，可以給其他地方使用 ---
 let productModal = null;
 
-const app = createApp({
+//---  VeeValidation：載入元件 (參考課程範例)
+const { defineRule, Form, Field, ErrorMessage, configure } = VeeValidate;
+const { required, email, min, max } = VeeValidateRules;
+const { localize, loadLocaleFromURL } = VeeValidateI18n;
+// VeeValidation：定義驗證規則
+defineRule('required', required);
+defineRule('email', email);
+defineRule('min', min);
+defineRule('max', max);
+// VeeValidation：載入語系
+loadLocaleFromURL('https://unpkg.com/@vee-validate/i18n@4.1.0/dist/locale/zh_TW.json');
+configure({  generateMessage: localize('zh_TW'), });
+
+const app = Vue.createApp({
   data() {
     return {
       //--- 產品列表 ---
@@ -36,6 +49,12 @@ const app = createApp({
       },
     }//.return
   },//.data
+  //VeeValidation：區域註冊 載入元件 (參考課程範例)
+  components: {
+    VForm: Form,
+    VField: Field,
+    ErrorMessage: ErrorMessage,
+  },//.components
   methods:{
     //--------------- 產品列表 ------------------------------------------
     //--- 登入：驗證 ---
@@ -78,6 +97,7 @@ const app = createApp({
       axios.get(`${apiUrl}/api/${apiPath}/cart`)
         .then((response) => {
           this.cart = response.data.data;//載入資料：購物車
+          console.log(this.cart);
         })//.then
         .catch((error) => {
           alert(error.data.message);//顯示錯誤訊息
@@ -141,21 +161,16 @@ const app = createApp({
     },//.deleteCarts
 
     //--------------- 購物車 表單 ------------------------------------------
+    isTel(value) {
+      const tel = /^(09)[0-9]{8}$/
+      return tel.test(value) ? true : '請輸入正確，手機號碼範例：0912-348-678'
+    },
     submitCart() {
-      console.log(this.form.user.email);
-      //--- 表單：驗證 ---
-      if( this.form.user.email ==='' ||
-          this.form.user.name ==='' ||
-          this.form.user.tel ==='' ||
-          this.form.user.address ===''){
-          alert('必填 有缺！');
-          return;
-      };
       //--- 表單：送出 ---
       axios.post(`${apiUrl}/api/${apiPath}/order`, { data: this.form })
       .then((response) => {
         alert(response.data.message);
-        //this.$refs.form.resetForm();//範例的程式碼，不知道做什麼用的？
+        this.$refs.form.resetForm();//範例的程式碼，不知道做什麼用的？
         this.getCart();//執行：取得購物車
         this.isLoading = '';//加入完後要清空
       })//.then
@@ -163,7 +178,6 @@ const app = createApp({
         alert(err.data.message);
       });//.catch
     },//.submitCart
- 
   },//.methods
   mounted() {
     this.checkLogin();//初始畫面：加驗證取得產品資料
@@ -174,6 +188,5 @@ const app = createApp({
     });
   },//.mounted
 });//.app
-
 
 app.mount('#product');
